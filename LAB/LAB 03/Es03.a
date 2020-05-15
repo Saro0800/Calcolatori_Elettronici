@@ -1,0 +1,30 @@
+#Esercizio 3
+
+#Risposta alla domanda: Non può esserci overflow percgè le variabili
+#sono contenute in byte, quindi anche moltiplicandole tra loro si
+#otterrebbe al massimo un valore rapresentabile su 2 byte, perfettamente
+#entro i limiti deli 4 byte ammissibili
+
+.data
+risulato: 	.space 4
+giorni:		.byte 231
+ore:		.byte 16
+minuti:		.byte 47
+
+	.text
+	.globl main
+	.ent main
+	
+main:
+	lbu $t0, giorni		#conversione da giorni ad ore
+	mul $t1, $t0, 24
+	lbu $t0, ore
+	addu $t1, $t1, $t0	#somma ore
+	mul $t1, $t1, 60	#conversione in minuti
+	lbu $t0, minuti
+	addu $t1, $t1, $t0
+	sw $t1, risulato
+	
+	li $v0, 10
+	syscall
+	.end main

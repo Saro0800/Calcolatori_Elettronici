@@ -1,0 +1,17 @@
+# Esercizio 3
+# ----------------------------------------
+.data
+op1: .byte 150		# 150 su 8 bit viene rappresentato con il bit più a sx a 1
+op2: .byte 100
+    .text
+    .globl main
+    .ent main
+main:
+    lbu $t0, op1	# load byte unsigned: permette di caricare il contenuto di un byte come unsigned
+    lb $t1, op2		# equivalente a lbu perchè il bit più a sx è 0
+    add $a0, $t0, $t1 
+    li $v0, 1
+    syscall 
+    li $v0, 10
+    syscall
+.end main

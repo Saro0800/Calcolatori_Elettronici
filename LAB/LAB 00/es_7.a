@@ -1,0 +1,99 @@
+#Esercizio 7
+#Ricerca del carattere minimo
+
+.data
+
+dim=5
+wVett:	.space 20	
+wMin:	.space 4	
+message_in:		.asciiz "Inserisci i caratteri\n"
+message_out:	.asciiz "Numeri inseriti\n"
+message_min:	.asciiz "\nCarattere minimo: "
+space:	.asciiz "; "
+
+	.text
+	.globl main
+	.ent main
+	
+main:
+	la $a0, message_in
+	li $v0, 4
+	syscall
+	
+	#ciclo di inserimento
+	la $t0, wVett
+	li $s0, 0		#contatore
+	li $s1, dim		#limite del contatore
+	
+input_cycle:
+	li $v0, 5
+	syscall
+	sw $v0, ($t0)
+	add $t0, $t0, 4
+	add $s0, $s0, 1
+	bne $s0, $s1, input_cycle
+	
+	#ciclo di stampa
+	la $t0, wVett
+	li $s0, 0		#contatore
+	
+output_cycle:
+	lw $a0, ($t0)
+	li $v0, 1
+	syscall
+	la $a0, space
+	li $v0, 4
+	syscall
+	add $t0, $t0, 4
+	add $s0, $s0, 1
+	bne $s0, $s1, output_cycle
+	
+	#ciclo per trovare il minimo
+	la $t0, wVett
+	li $s0, 0		#contatore
+	lw $t1, ($t0)	#$t1 contiene il minimo
+	
+min_cycle:
+		lw $t2, ($t0)
+		blt $t2, $t1, change_min
+resume:	add $s0, $s0, 1
+		beq $s0, $s1, min_print
+		add $t0, $t0, 4
+		j min_cycle
+	
+change_min:
+	lw $t1, ($t0)
+	j resume
+
+min_print:
+	la $a0, message_min
+	li $v0, 4
+	syscall
+	sw $t1, wMin
+	lw $a0, wMin
+	li $v0, 1
+	syscall
+	
+	li $v0, 10
+	syscall
+	
+	.end main
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

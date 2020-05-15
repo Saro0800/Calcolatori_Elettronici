@@ -1,0 +1,44 @@
+.data
+var1:	.byte 'm'
+var2:	.byte 'i'
+var3:	.byte 'p'
+var4:	.byte 's'
+var5:	.byte 0
+	
+	.text
+	.globl main
+	.ent main
+
+main:
+
+	lb $t1, var1		# la distanza tra caratteri ASCII minuscoli e maiuscoli
+	subi $t1, $t1, 32	# è di 32. Può essere calcolata facendo:
+	sb var1, $t1		# li $t0, 'A'
+						# li $t1, 'a'
+	lb $t2, var2		# sub $t0, $t1, $t0
+	subi $t2, $t2, 32	# dopo averla calcolata, si può sommare questa quantità alla
+	sb var2, $t2		# al registro in cui è stata salvata la variabile da cambiare
+
+	lb $t3, var3
+	subi $t3, $t3, 32
+	sb var3, $t3
+
+	lb $t4, var4
+	subi $t4, $t4, 32
+	sb var3, $t3
+	
+	la $a0, var1
+	li $v0, 4
+	syscall
+
+	li $v0, 10
+	syscall
+	.end main
+
+# Quali sono i caratteri stampati a video? A cosa serve var5?
+# I caratteri vengono visualizzati in maiuscolo. var5, che contiene 0 e che non viene alterato, serve
+# nella chiamata di syscal come terminatore di stringa; infatti la syscall stampa i caratteri nei byte 
+# fino ad incontrare il terminatore di stringa.
+	
+	
+	

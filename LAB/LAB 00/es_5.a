@@ -1,0 +1,40 @@
+#Esercizio 5
+#Somma elementi di un vettore
+
+.data
+dim=15
+wVett:	.word 2, 5, 16, 12, 34, 7, 20, 11, 31, 44, 70, 69, 2, 4, 23
+wResult: .space 4
+
+	.text
+	.globl main
+	.ent main
+	
+main:
+	la $t0, wVett	#indirizzo del vettore
+	li $t1, 0		#accumulatore
+	li $t3, 0		#contatore
+	li $s0, dim
+	
+cycle:	lw $t2, ($t0)		#elemento da aggiungere
+		add $t1, $t1, $t2	#somma dell'elemento
+		add $t0, $t0, 4		#incremento indirizzo
+		addi $t3, $t3, 1	#incremento contatore
+		beq $t3, dim, end	#condizione di terminazione
+		j cycle				#salto incondizionato eseguito solo nel caso 
+							#in cui la condizione di terminazione non è 
+							#stata raggiunta
+
+end:	sw $t1, wResult
+	
+	li $v0, 10
+	syscall
+	
+	.end main
+
+
+
+
+
+
+
